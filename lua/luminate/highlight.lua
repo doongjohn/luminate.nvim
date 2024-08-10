@@ -10,6 +10,11 @@ end
 
 function M.on_bytes(event_type, bufnr, changedtick, start_row, start_column, byte_offset, old_end_row, old_end_col,
                     old_end_byte, new_end_row, new_end_col, new_end_byte)
+  if #vim.api.nvim_get_option_value('buftype', { buf = 0 }) ~= 0 then
+    -- ignore if it's not a normal buffer
+    return
+  end
+
   if config_module.config.should_detach or vim.fn.mode() == 'i' then
     return true
   end

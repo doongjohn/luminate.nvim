@@ -9,11 +9,13 @@ local M = {}
 local function set_highlight_groups()
   local highlight_groups = { 'yank', 'paste', 'undo', 'redo' }
   for _, group in ipairs(highlight_groups) do
-    highlight.set_highlight(config_module.config[group].hlgroup, {
-      ctermbg = config_module.config[group].ctermbg,
-      bg = config_module.config[group].guibg,
-      fg = config_module.config[group].fg,
-    })
+    if vim.api.nvim_get_hl(0, { name = config_module.config[group].hlgroup }) == nil then
+      highlight.set_highlight(config_module.config[group].hlgroup, {
+        ctermbg = config_module.config[group].ctermbg,
+        bg = config_module.config[group].guibg,
+        fg = config_module.config[group].fg,
+      })
+    end
   end
 end
 
